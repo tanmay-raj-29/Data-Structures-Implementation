@@ -13,8 +13,8 @@ void dfs(int u,int par) {
         if(v == par) {
             continue;
         }
-        if(vis[u]) {
-            low[u]=min(low[u],in[par]);
+        if(vis[v]) {
+            low[u]=min(low[u],in[v]);
         }
         else {
             dfs(v,u);
