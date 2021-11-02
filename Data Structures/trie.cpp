@@ -1,45 +1,84 @@
-struct TRIE {
-    vector<vector<array<int, 2>>> nxt; // {address, cnt}
-    int total;
-
-    TRIE() {
-        nxt.push_back(vector<array<int, 2>>(2, {0, 0}));
-        total = 0;
+struct Trie {
+    static const int B = 31;
+    struct node {
+        node* nxt[2];
+        int sz;
+        node() {
+            nxt[0] = nxt[1] = NULL;
+            sz = 0;
+        }
+    } *root;
+    Trie() {
+        root = new node();
     }
-
-    void add(int x) {
-        int node = 0;
-        for(int bit = 19; bit >= 0; --bit) {
-            int b = (1 & (x >> bit));
-            if(nxt[node][b][0] == 0) {
-                nxt[node][b][0] = ++total;
-                nxt.push_back(vector<array<int, 2>>(2, {0, 0}));    
+    void insert(int val) {
+        node* cur = root;
+        cur -> sz++;
+        for (int i = B - 1; i >= 0; i--) {
+            int b = 1 & (val >> i);
+            if (cur -> nxt[b] == NULL) {
+                cur -> nxt[b] = new node();
             }
-            nxt[node][b][1]++;
-            node = nxt[node][b][0];
+            cur = cur -> nxt[b];
+            cur -> sz++;
         }
     }
-
-    void del(int x) {
-        int node = 0;
-        for(int bit = 19; bit >= 0; --bit) {
-            int b = (1 & (x >> bit));
-            nxt[node][b][1]--;
-            node = nxt[node][b][0];
-        }
-    }
-
-    int search(int x) {
-        int node = 0, ans = 0;
-        for(int bit = 19; bit >= 0; --bit) {
-            int b = (1 & (x >> bit));
-            int a = !b;
-            if(nxt[node][a][1] == 0) {
-                a ^= 1;
+    int query(int x, int k) { // number of values s.t. val ^ x < k
+        node* cur = root;
+        int ans = 0;
+        for (int i = B - 1; i >= 0; i--) {
+            if (cur == NULL) break;
+            int b1 = x >> i & 1, b2 = k >> i & 1;
+            if (b2 == 1) {
+                if (cur -> nxt[b1]) {
+                    ans += cur -> nxt[b1] -> sz;
+                }
+                cur = cur -> nxt[!b1];
+            } 
+            else {
+                cur = cur -> nxt[b1];
             }
-            node = nxt[node][a][0];
-            ans += (a ^ b)*(1 << bit);
         }
         return ans;
+    }
+    int get_max(int x) { // returns maximum of val ^ x
+        node* cur = root;
+        int ans = 0;
+        for (int i = B - 1; i >= 0; i--) {
+            int k = x >> i & 1;
+            if (cur -> nxt[!k]) {
+                cur = cur -> nxt[!k];
+                ans <<= 1, ans++;
+            }
+            else {
+                cur = cur -> nxt[k];
+                ans <<= 1;
+            }
+        }
+        return ans;
+    }
+    int get_min(int x) { // returns minimum of val ^ x
+        node* cur = root;
+        int ans = 0;
+        for (int i = B - 1; i >= 0; i--) {
+            int k = x >> i & 1;
+            if (cur -> nxt[k]) {
+                cur = cur -> nxt[k];
+                ans <<= 1;
+            }
+            else {
+                cur = cur -> nxt[!k];
+                ans <<= 1, ans++;
+            }
+        }
+        return ans;
+    }
+    void del(node* cur) {
+        for (int i = 0; i < 2; i++) {
+            if (cur -> nxt[i]) {
+                del(cur -> nxt[i]);
+            }
+        }
+        delete(cur);
     }
 };

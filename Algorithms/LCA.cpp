@@ -18,7 +18,7 @@ void precompute() {
         for(int j=0;j<n;j++) {
             parent[j][i] = parent[parent[j][i-1]][i-1];
         }
-    }
+    } 
 }
 
 int walk(int x,int h) {

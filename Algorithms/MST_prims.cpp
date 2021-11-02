@@ -2,14 +2,14 @@ int dist[N], parent[N];
 vector<array<int, 2>> tree[N];
 bool vis[N];
 
-int primsMST(int source, int n) { //Finds the cost and makes the MST
-    for (int i = 1; i <= n; i++) {
+long long primsMST(int source, int n) { //Finds the cost and makes the MST
+    for (int i = 0; i < n; i++) {
         dist[i] = 1e9;
         vis[i] = false;
     }
     set<array<int, 2>> s;
     s.insert({0, source});
-    int cost = 0;
+    long long cost = 0;
     dist[source] = 0;
     while(!s.empty()) {
         array<int, 2> node = *(s.begin());

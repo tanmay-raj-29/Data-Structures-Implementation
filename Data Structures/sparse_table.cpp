@@ -25,7 +25,7 @@ void buildSparseTable(vector<int>& a) {
 
 int getANS(int l, int r) {
     if(l>r || l<0 || r>=n) {
-        return mod;
+        return MOD;
     }
     int p = logs[r - l + 1];
     int pLen = 1 << p; // 2^p

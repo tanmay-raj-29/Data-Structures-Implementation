@@ -1,11 +1,11 @@
 vector<int> order;
 bool toposort(int n) {//Returns 1 if there exists a toposort, 0 if there is a cycle   
     queue<int> q;
-    vector<int> indeg(n + 1, 0);
-    for(int i = 1; i <= n; i++)
+    vector<int> indeg(n, 0);
+    for(int i = 0; i < n; i++)
         for(auto &it:g[i])
             indeg[it]++;
-    for(int i = 1; i <= n; i++) {
+    for(int i = 0; i < n; i++) {
         if(!indeg[i])
             q.push(i);
     }
