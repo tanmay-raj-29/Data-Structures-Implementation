@@ -22,5 +22,3 @@ void _print() {cout << "]"<<endl;}
 template <typename T, typename... V>
 void _print(T t, V... v) {__print(t); if (sizeof...(v)) cout << ", "; _print(v...);}
 #define deb(x...) cout << #x << " = ["; _print(x)
-template<typename T,typename T1>T amax(T &a,T1 b){if(b>a)a=b;return a;}
-template<typename T,typename T1>T amin(T &a,T1 b){if(b<a)a=b;return a;}
