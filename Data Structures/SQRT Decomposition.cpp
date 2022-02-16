@@ -3,10 +3,25 @@ struct sqrt_dec {
     int block_size;
     vector<int> a;
     vector<long long> block;
-    
+
+    int square_root(int x) {
+        int L = 0, R = x, opt = 0;
+        while (L <= R) {
+            int mid = L + (R - L ) / 2;
+            if (1LL * mid * mid <= x) {
+                opt = mid;
+                L = mid + 1;
+            }
+            else {
+                R = mid - 1;
+            }
+        }
+        return opt;
+    }
+
     sqrt_dec(vector<int>& v) {
         n = v.size();
-        block_size = sqrt(n) + 1;
+        block_size = square_root(n) + 1;
         a.resize(n);
         block.resize(sqrt(n)+1, 0);
         int b = 0, cnt = 0;
