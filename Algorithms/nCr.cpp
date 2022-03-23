@@ -22,6 +22,7 @@ namespace modop {
     bool generated_factorials__ = false;
 
     void generate_factorials() {
+        generated_factorials__ = true;
         fact[0] = fact[1] = invfact[0] = invfact[1] = 1;
         
         for (int i = 2; i <= FACTORIAL_SIZE; i++) {
@@ -33,9 +34,8 @@ namespace modop {
         }
     }
     int nCr(int n, int r) {
-        if(generated_factorials__ == false) {
-            generate_factorials();
-        }
+        if(generated_factorials__ == false) generate_factorials();
+        
         return (r < 0 || n < r) ? 0 : modmul(modmul(fact[n], invfact[r]), invfact[n-r]);
     }
 }
