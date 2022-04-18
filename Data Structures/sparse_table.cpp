@@ -1,6 +1,6 @@
 template<typename T>
 struct SPARSE_TABLE {
-    T apply(T a, T b) {
+    inline T apply(T a, T b) {
         // change according to operation
         return gcd(a, b);
     }
