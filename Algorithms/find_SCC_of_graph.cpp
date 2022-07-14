@@ -1,52 +1,56 @@
-vector<int> g[N], rg[N], todo;
-int grp = 0;
-int comp[N], sz[N];
-bool vis[N];
-set<int> gr[N];
+struct SCC {
+    vector<vector<int>> g, rg, components;
+    vector<int> order, index;
+    int n;
 
-void dfs(int u) {
-    vis[u] = 1;
-    for(auto &it:g[u]) {
-        if(!vis[it])
-            dfs(it);
+    void build_reverse_graph() {
+        rg.clear();
+        rg.resize(n);
+        for (int u = 0; u < n; u++) {
+            for (int v : g[u]) {
+                rg[v].push_back(u);
+            }
+        }
     }
-    todo.push_back(u);
-}
-
-void dfs2(int u, int val) {
-    comp[u] = val;
-    sz[val]++;
-    for(auto &it:rg[u]) {
-        if(comp[it] == -1)
-            dfs2(it, val);
+    void dfs1(int u, vector<bool>& vis) {
+        vis[u] = true;
+        for (int v : g[u]) {
+            if (!vis[v]) dfs1(v, vis);
+        }
+        order.push_back(u);
     }
-}
-
-void sccAddEdge(int from, int to) {
-    g[from].push_back(to);
-    rg[to].push_back(from);
-}
-
-void scc(int n) {
-    for(int i = 1; i <= n; i++)
-        comp[i] = -1;
-
-    for(int i = 1; i <= n; i++) {
-        if(!vis[i])
-            dfs(i);
+    void dfs2(int u, vector<bool>& vis, vector<int>& cmp) {
+        cmp.push_back(u);
+        vis[u] = true;
+        for (int v : g[u]) {
+            if (!vis[v]) dfs2(v, vis, cmp);
+        }
     }
-
-    reverse(todo.begin(), todo.end());
-    for(auto &it:todo) {
-        if(comp[it] == -1)
-            dfs2(it, ++grp);
+public:
+    SCC(vector<vector<int>>& g) : g(g) {
+        n = (int)g.size();
+        index.resize(n);
     }
-    
-    // SCC Tree
-    /*
-    for(int i = 1; i <= n; i++)
-        for(auto &it:g[i])
-            if(comp[i] != comp[it])
-                gr[i].insert(it);
-    */
-}
+    void init() {
+        build_reverse_graph();
+        
+        vector<bool> vis(n, false);
+        for (int u = 0; u < n; u++) {
+            if (!vis[u]) dfs1(u, vis);
+        }
+        vis = vector<bool>(n, false);
+        reverse(order.begin(), order.end());
+        for (int u : order) {
+            if (!vis[u]) {
+                vector<int> cmp;
+                dfs2(u, vis, cmp);
+                for (int el : cmp) {
+                    index[el] = (int)components.size();
+                }
+                components.push_back(cmp);
+            }
+        }
+    }
+    vector<int> get_component(int u) { return components[index[u]]; }
+    bool is_first(int u) { return components[index[u]].front() == u; }
+};

@@ -23,7 +23,7 @@ struct sqrt_dec {
         n = v.size();
         block_size = square_root(n) + 1;
         a.resize(n);
-        block.resize(sqrt(n)+1, 0);
+        block.resize(block_size + 1, 0);
         int b = 0, cnt = 0;
         for (int i = 0; i < n; i++) {
             a[i] = v[i];

@@ -13,7 +13,24 @@ struct Query {
     }
 };
 
+int square_root(int v) {
+    int L = 1, R = v, opt = L;
+    while (L <= R) {
+        int mid = L + (R - L) / 2;
+        if (1LL * mid * mid <= v) {
+            L = mid + 1;
+            opt = mid;
+        }
+        else {
+            R = mid - 1;
+        }
+    }
+    return opt;
+}
+
 vector<int> mos_algo(vector<Query>& query, vector<int>& v) {
+    int n = (int)v.size();
+    BLOCK_SIZE = square_root(n);
     int sz = query.size();
     vector<int> answer(sz);
     sort(query.begin(), query.end());
