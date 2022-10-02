@@ -1,5 +1,6 @@
 const int NUM = 1e5+5;
 bool prime[NUM];
+vector<int> primes;
 
 void sieve() {
     memset(prime,true,sizeof(prime));
@@ -11,5 +12,8 @@ void sieve() {
                 prime[j] = false;
             }
         }
+    }
+    for (int i = 2; i < NUM; ++i) {
+        if (prime[i]) primes.push_back(i);
     }
 }

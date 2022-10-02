@@ -1,0 +1,3 @@
+gcd(n, m) = gcd(n, n + m)
+For every x, there is a perfect square between [x, 2x]
+https://atcoder.jp/contests/abc269/editorial/4854

@@ -1,5 +1,7 @@
 vector<int> order;
-bool toposort(int n) {//Returns 1 if there exists a toposort, 0 if there is a cycle   
+bool toposort(vector<vector<int>>& g) {//Returns 1 if there exists a toposort, 0 if there is a cycle
+    order.clear();
+    int n = (int)g.size();
     queue<int> q;
     vector<int> indeg(n, 0);
     for(int i = 0; i < n; i++)

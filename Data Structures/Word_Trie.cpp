@@ -33,6 +33,7 @@ struct Trie {
             if (cur == NULL) break;
             int b = (c - 'a');
             cur = cur -> nxt[b];
+            ans += cur->sz;
         }
         return ans;
     }
