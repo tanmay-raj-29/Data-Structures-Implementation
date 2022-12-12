@@ -10,11 +10,8 @@ struct DSU {
     }
 
     int getPar(int u) {
-        while(u != par[u]) {
-            par[u] = par[par[u]];
-            u = par[u];
-        }
-        return u;
+        if (u == par[u]) return u;
+        return par[u] = getPar(par[u]);
     }
 
     int getSize(int u) {
@@ -25,9 +22,6 @@ struct DSU {
         int par1 = getPar(u), par2 = getPar(v);
         if(par1 == par2) {
             return false;
-        }
-        if(sz[par1] > sz[par2]) {
-            swap(par1, par2);
         }
         sz[par2] += sz[par1];
         sz[par1] = 0;

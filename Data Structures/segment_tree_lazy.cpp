@@ -6,7 +6,7 @@ struct Data {
         el = val;
     }
     
-    void merge(const Data &left, const Data &right) {         
+    void merge(const Data &left, const Data &right) {
 
     }
 };

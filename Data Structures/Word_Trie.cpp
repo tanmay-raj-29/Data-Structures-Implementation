@@ -4,6 +4,7 @@ struct Trie {
     struct node {
         node* nxt[LEN];
         int sz;
+        int cnt = 0;
         node() {
             for (int i = 0; i < LEN; i++) {
                 nxt[i] = NULL;
@@ -25,6 +26,7 @@ struct Trie {
             cur = cur -> nxt[b];
             cur -> sz++;
         }
+        cur -> cnt++;
     }
     int query(string& s) { // check if s exists in trie
         node* cur = root;
@@ -35,7 +37,7 @@ struct Trie {
             cur = cur -> nxt[b];
             ans += cur->sz;
         }
-        return ans;
+        return cur -> cnt; // return number of occurences of s
     }
     void del(node* cur) {
         for (int i = 0; i < 2; i++) {
