@@ -22,7 +22,7 @@ struct SCC {
     void dfs2(int u, vector<bool>& vis, vector<int>& cmp) {
         cmp.push_back(u);
         vis[u] = true;
-        for (int v : g[u]) {
+        for (int v : rg[u]) {
             if (!vis[v]) dfs2(v, vis, cmp);
         }
     }

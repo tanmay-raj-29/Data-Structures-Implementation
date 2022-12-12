@@ -23,6 +23,7 @@ private:
     }
 
     int walk(int x,int h) {
+        if (depth[x] < h) return -1;
         for(int i = LOG - 1; i >= 0; i--) {
             if(h & (1 << i)) {
                 x = parent[x][i];
@@ -55,7 +56,7 @@ public:
         if(a == b) {
             return a;
         }
-        for(int i= LOG - 1; i >= 0; i--) {
+        for(int i = LOG - 1; i >= 0; i--) {
             if(parent[a][i] != parent[b][i]) {
                 a = parent[a][i];
                 b = parent[b][i];
